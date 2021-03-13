@@ -1,0 +1,18 @@
+<table *ngIf="dataLoaded==true" class="table">
+    <thead>
+        <tr>
+            <th>Müşteri Id</th>
+            <th>Adı</th>
+            <th>Soyadı</th>
+            <th>Şirketi</th>
+        </tr>
+    </thead>
+    <tr *ngFor="let customer of customers">
+        <td>{{customer.customerId}}</td>
+        <td>{{customer.firstName}}</td>
+        <td>{{customer.lastName}}</td>
+        <td>{{customer.companyName}}</td>
+        
+    </tr>
+</table>
+
