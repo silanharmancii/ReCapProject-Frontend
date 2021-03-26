@@ -1,0 +1,41 @@
+<div class="d-flex justify-content-center" *ngIf="dataLoaded==false">
+    <div class="spinner-border text-success" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+<div class="mx-auto" *ngIf="dataLoaded==true">
+    <div id="carImageSlide" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-inner d-flex" style="height: 70vh; width: 80vh; margin-left: 18vh">
+            <div *ngFor="let carImage of carImages; index as i; first as firstImage"
+                class="carousel-item align-self-center" [ngClass]="{ active: firstImage }">
+                <img src="{{ apiUrl }}{{ carImage.imagePath }}" class="" style="height: 100%; width: 100%" />
+            </div>
+            <div>
+                <table class="table table-striped mt-2" >
+                   
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Araba Adı</th>
+                            <th>Marka</th>
+                            <th>Renk</th>
+                            <th>Fiyat</th>
+                           
+                        </tr>
+                    </thead>
+                    <tr *ngFor="let car of cars">
+                        <td>{{car.carId}}</td>
+                        <td>{{car.carName}}</td>
+                        <td>{{car.brandName}}</td>
+                        <td>{{car.colorName}}</td>
+                        <td>{{car.dailyPrice}}</td>
+                   
+    
+                    </tr>
+                </table>
+            </div>
+           
+        </div>
+    </div>
+</div>
