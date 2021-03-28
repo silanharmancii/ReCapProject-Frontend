@@ -2,21 +2,27 @@
     <span class="visually-hidden">Loading...</span>
 </div>
 
-
-    <div class="card" style="width: 25%; height:600px;"  *ngFor="let car of cars">
-        <img src="{{apiUrl}}{{car.imagePath}}" class="card-img-top" alt="..." height="150px">
-        <div class="card-body">
-            <h5 class="card-title">{{car.carName}}</h5>
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item"><strong>Marka - </strong>{{car.brandName |uppercase }}</li>
-            <li class="list-group-item"><strong>Renk - </strong>{{car.colorName}}</li>
-            <li class="list-group-item"><strong>Fiyat - </strong>{{car.dailyPrice |currency:"₺"}}</li>
-
-        </ul>
-        <div class="card-body">
-            <button routerLink="/cars/cardetail/{{ car.carId }}" type="button" class="btn btn-success">Sepete
-                Ekle</button>
-            <button routerLink="/cars/cardetail/{{ car.carId }}" type="button" class="btn btn-warning">Detaylar</button>
-        </div>
+<div class="mb-3">
+    <label for="filterText" class="form-label">Ürün Ara</label>
+    <input type="text" [(ngModel)]="filterText" class="form-control" id="filterText" placeholder="Arama ifadesi giriniz">
+</div>
+<div *ngIf="filterText.length>2" class="alert alert-success" >
+    {{filterText}} aradınız
+</div>
+<div class="card" style="width: 25%; height:600px;" *ngFor="let car of cars | filterPipe:filterText ">
+    <img src="{{apiUrl}}{{car.imagePath}}" class="card-img-top" alt="..." height="150px">
+    <div class="card-body">
+        <h5 class="card-title">{{car.carName}}</h5>
     </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>Marka - </strong>{{car.brandName |uppercase }}</li>
+        <li class="list-group-item"><strong>Renk - </strong>{{car.colorName}}</li>
+        <li class="list-group-item"><strong>Fiyat - </strong>{{car.dailyPrice |currency:"₺"}}</li>
+
+    </ul>
+    <div class="card-body">
+        <button routerLink="/cars/cardetail/{{ car.carId }}" type="button" class="btn btn-success">Sepete
+            Ekle</button>
+        <button routerLink="/cars/cardetail/{{ car.carId }}" type="button" class="btn btn-warning">Detaylar</button>
+    </div>
+</div>

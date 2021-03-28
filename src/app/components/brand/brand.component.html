@@ -1,5 +1,10 @@
 <ul class="list-group">
   <li [class]="getAllBrandClass()" routerLink="/cars">Tüm Markalar</li>
-
-  <li (click)="setCurrentBrand(brand)" [class]="getCurrentBrandClass(brand)" *ngFor="let brand of brands" [routerLink]="'/cars/brand/' + brand.id">{{brand.brandName}}</li>
+  <div class="mb-3">
+    <input type="text" [(ngModel)]="brandFilterText" class="form-control" id="brandFilterText"
+      placeholder="Marka sorgula">
+  </div>
+  <li (click)="setCurrentBrand(brand)" [class]="getCurrentBrandClass(brand)"
+    *ngFor="let brand of brands | brandFilterPipe:brandFilterText" [routerLink]="'/cars/brand/' + brand.id">
+    {{brand.brandName}}</li>
 </ul>

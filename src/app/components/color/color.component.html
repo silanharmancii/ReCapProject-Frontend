@@ -1,4 +1,9 @@
 <ul class="list-group">
-    <h5>Renkler</h5>
-    <li (click)="setCurrentColor(color)" [class]="getCurrentColorClass(color)" *ngFor="let color of colors" [routerLink]="'/cars/color/' + color.id">{{color.colorName}}</li> 
-  </ul>
+  <h5>Renkler</h5>
+  <div class="mb-3">
+    <input type="text" [(ngModel)]="colorFilterText" class="form-control" id="colorFilterText"
+      placeholder="Renk sorgula">
+  </div>
+  <li (click)="setCurrentColor(color)" [class]="getCurrentColorClass(color)" *ngFor="let color of colors | colorFilterPipe:colorFilterText"
+    [routerLink]="'/cars/color/' + color.id">{{color.colorName}}</li>
+</ul>

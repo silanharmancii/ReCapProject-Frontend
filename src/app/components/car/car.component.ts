@@ -15,8 +15,9 @@ export class CarComponent implements OnInit {
   cars: Car[]=[];
   carImages: CarImage[]=[];
   apiUrl : string = "https://localhost:44363";
-  
   dataLoaded = false;
+  filterText=""; 
+  
 
   constructor(private carService: CarService,
     private carImageService: CarImageService,
