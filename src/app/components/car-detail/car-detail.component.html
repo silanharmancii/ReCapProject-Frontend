@@ -13,6 +13,7 @@
             <li class="list-group-item"><strong>Marka - </strong>{{car.brandName}}</li>
             <li class="list-group-item"><strong>Renk - </strong>{{car.colorName}}</li>
             <li class="list-group-item"><strong>Fiyat - </strong> {{car.dailyPrice}}</li>
+            <li class="list-group-item"><strong>KDV Dahil Fiyat - </strong>{{car.dailyPrice |vatAdded:18 |currency:"₺"}}</li>
             <li class="list-group-item"><strong>Model Yıl - </strong>{{car.modelYear}}</li>
         </ul>
         <div class="card-body">
