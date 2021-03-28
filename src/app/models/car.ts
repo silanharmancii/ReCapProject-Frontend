@@ -9,4 +9,6 @@ export interface Car{
     colorName:string,
     dailyPrice:DecimalPipe,
     imagePath:string
+    modelYear:string
+    description:string
 }
