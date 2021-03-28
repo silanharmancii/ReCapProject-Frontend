@@ -9,9 +9,10 @@
             <h5 class="card-title">{{car.carName}}</h5>
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item"><strong>Marka - </strong>{{car.brandName}}</li>
+            <li class="list-group-item"><strong>Marka - </strong>{{car.brandName |uppercase }}</li>
             <li class="list-group-item"><strong>Renk - </strong>{{car.colorName}}</li>
-            <li class="list-group-item"><strong>Fiyat - </strong>{{car.dailyPrice}}</li>
+            <li class="list-group-item"><strong>Fiyat - </strong>{{car.dailyPrice |currency:"₺"}}</li>
+
         </ul>
         <div class="card-body">
             <button routerLink="/cars/cardetail/{{ car.carId }}" type="button" class="btn btn-success">Sepete
