@@ -1,4 +1,4 @@
-<ul class="list-group">
+<!--<ul class="list-group">
   <h5>Renkler</h5>
   <div class="mb-3">
     <input type="text" [(ngModel)]="colorFilterText" class="form-control" id="colorFilterText"
@@ -6,4 +6,30 @@
   </div>
   <li (click)="setCurrentColor(color)" [class]="getCurrentColorClass(color)" *ngFor="let color of colors | colorFilterPipe:colorFilterText"
     [routerLink]="'/cars/color/' + color.id">{{color.colorName}}</li>
-</ul>
+</ul>-->
+
+<select class="form-select" aria-label="Default select example" [(ngModel)]="colorIdFilter" placeholder="Renk sorgula" >
+  <!-- <option selected>Araba Markası Seçin</option> -->
+  <option *ngFor="let color of colors" [value]="color.id" 
+  [selected] = "getCurrentColorClass(color)">
+    {{ color.colorName }}
+  </option>
+<br>
+</select>
+<div class="col col-2">
+  <div class="btn-group">
+    <button [routerLink]="'/cars/color/' + colorIdFilter " type="button" class="btn btn-warning">
+      Filtrele
+    </button>
+  </div>
+</div>
+<div class="col col-2">
+  <div class="btn-group">
+    <button routerLink="/cars"
+    type="button"
+    class="btn btn-danger"
+    >
+      Temizle
+    </button>
+  </div>
+</div>

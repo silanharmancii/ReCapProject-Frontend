@@ -12,6 +12,7 @@ export class ColorComponent implements OnInit {
   colors:Color[]=[];
   currentColor: Color;
   colorFilterText=""; 
+  colorIdFilter : number;
   
   constructor(private colorService: ColorService) {}
 
@@ -32,6 +33,13 @@ export class ColorComponent implements OnInit {
       return 'list-group-item active';
     }else {
       return 'list-group-item';
+    }
+  }
+  getSelectedColor(colorId:number){
+    if (this.colorIdFilter == colorId) {
+      return true;
+    } else {
+      return false;
     }
   }
 

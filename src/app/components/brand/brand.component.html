@@ -1,4 +1,4 @@
-<ul class="list-group">
+<!--<ul class="list-group">
   <li [class]="getAllBrandClass()" routerLink="/cars">Tüm Markalar</li>
   <div class="mb-3">
     <input type="text" [(ngModel)]="brandFilterText" class="form-control" id="brandFilterText"
@@ -7,4 +7,29 @@
   <li (click)="setCurrentBrand(brand)" [class]="getCurrentBrandClass(brand)"
     *ngFor="let brand of brands | brandFilterPipe:brandFilterText" [routerLink]="'/cars/brand/' + brand.id">
     {{brand.brandName}}</li>
-</ul>
+</ul> -->
+
+<select class="form-select" [(ngModel)]="brandIdFilter">
+  <option *ngFor="let brand of brands" [value]="brand.id"
+  [selected]="getCurrentBrandClass(brand)" >
+    {{ brand.brandName }}
+  </option>
+<br>
+</select>
+<div class="col col-2">
+  <div class="btn-group">
+    <button [routerLink]="'/cars/brand/' + brandIdFilter" type="button" class="btn btn-warning">
+      Filtrele
+    </button>
+  </div>
+</div>
+<div class="col col-2">
+  <div class="btn-group">
+    <button routerLink="/cars"
+    type="button"
+    class="btn btn-danger"
+    >
+      Temizle
+    </button>
+  </div>
+</div>
