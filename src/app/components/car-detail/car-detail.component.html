@@ -17,9 +17,12 @@
             <li class="list-group-item"><strong>Model Yıl - </strong>{{car.modelYear}}</li>
         </ul>
         <div class="card-body">
-            <button routerLink="/cars/cardetail/{{ car.carId }}" type="button" class="btn btn-success">Sepete
-                Ekle</button>
-            <button routerLink="/cars/cardetail/{{ car.carId }}" type="button" class="btn btn-warning">Detaylar</button>
+            <div class="card-body">
+              
+               <button routerLink="/rent-car/{{ car.carId }}" type="button" class="btn btn-success">Kirala</button>
+            </div>
         </div>
     </div>
 
+    <!-- <button (click)="rentTheCar(cars)" type="button" class="btn btn-success">Kirala</button>-->
+    <!----> 

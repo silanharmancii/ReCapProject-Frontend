@@ -8,7 +8,8 @@ export interface Car{
     brandName:string,
     colorName:string,
     dailyPrice:number,
-    imagePath:string
-    modelYear:string
-    description:string
+    imagePath:string,
+    modelYear:string,
+    description:string,
+    status:boolean
 }
