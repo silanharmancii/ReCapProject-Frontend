@@ -9,27 +9,18 @@
     {{brand.brandName}}</li>
 </ul> -->
 
-<select class="form-select" [(ngModel)]="brandIdFilter">
-  <option *ngFor="let brand of brands" [value]="brand.id"
-  [selected]="getCurrentBrandClass(brand)" >
-    {{ brand.brandName }}
-  </option>
-<br>
-</select>
-<div class="col col-2">
-  <div class="btn-group">
-    <button [routerLink]="'/cars/brand/' + brandIdFilter" type="button" class="btn btn-warning">
-      Filtrele
-    </button>
+<form class="form-inline">
+  <div class="form-group mb-2">
+    <select class="form-select" [(ngModel)]="brandIdFilter">
+      <option *ngFor="let brand of brands" [value]="brand.id"
+      [selected]="getCurrentBrandClass(brand)" >
+        {{ brand.brandName }}
+      </option>
+    </select>
   </div>
-</div>
-<div class="col col-2">
-  <div class="btn-group">
-    <button routerLink="/cars"
-    type="button"
-    class="btn btn-danger"
-    >
-      Temizle
-    </button>
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <button [routerLink]="'/cars/brand/' + brandIdFilter" type="button" class="btn btn-primary mb-2">Filtrele</button>
+    <button routerLink="/cars" type="button" class="btn btn-danger mb-2">Temizle</button>
   </div>
-</div>
+</form>
+

@@ -8,28 +8,20 @@
     [routerLink]="'/cars/color/' + color.id">{{color.colorName}}</li>
 </ul>-->
 
-<select class="form-select" aria-label="Default select example" [(ngModel)]="colorIdFilter" placeholder="Renk sorgula" >
-  <!-- <option selected>Araba Markası Seçin</option> -->
-  <option *ngFor="let color of colors" [value]="color.id" 
-  [selected] = "getCurrentColorClass(color)">
-    {{ color.colorName }}
-  </option>
-<br>
-</select>
-<div class="col col-2">
-  <div class="btn-group">
-    <button [routerLink]="'/cars/color/' + colorIdFilter " type="button" class="btn btn-warning">
-      Filtrele
-    </button>
+
+<form class="form-inline">
+  <div class="form-group mb-2">
+    <select class="form-select" [(ngModel)]="colorIdFilter" placeholder="Renk sorgula" >
+      <option *ngFor="let color of colors" [value]="color.id" 
+      [selected] = "getCurrentColorClass(color)">
+        {{ color.colorName }}
+      </option>
+    </select>
   </div>
-</div>
-<div class="col col-2">
-  <div class="btn-group">
-    <button routerLink="/cars"
-    type="button"
-    class="btn btn-danger"
-    >
-      Temizle
-    </button>
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <button [routerLink]="'/cars/color/' + colorIdFilter " type="button" class="btn btn-primary mb-2">Filtrele</button>
+    <button routerLink="/cars" type="button" class="btn btn-danger mb-2">Temizle</button> 
   </div>
-</div>
+</form>
+
+
