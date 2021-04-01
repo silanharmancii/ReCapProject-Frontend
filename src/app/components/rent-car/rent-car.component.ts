@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,6 +25,11 @@ export class RentCarComponent implements OnInit {
   rentForm: FormGroup;
   payVisible = false;
 
+  minDate: string | any;
+  maxDate: string | null;
+  maxMinDate: string | null;
+  firstDateSelected: boolean = false;
+
   constructor(
     private activedRoute: ActivatedRoute,
     private toastrService: ToastrService,
@@ -31,7 +37,7 @@ export class RentCarComponent implements OnInit {
     private router: Router,
     private carService: CarService,
     private customerService: CustomerService,
-    private rentalService: RentalService
+    private rentalService: RentalService,
   ) {}
 
   ngOnInit(): void {
@@ -43,14 +49,14 @@ export class RentCarComponent implements OnInit {
 
   getCarDetail(carId: number) {
     this.carService.getCarDetailsByCarId(carId).subscribe((response) => {
-      this.cars = response.data;
-      this.car =this.cars[0];
+      this.car = response.data[0];
     });
   }
 
   getCustomers() {
-    this.customerService.getCustomers().subscribe((c) => {
-      this.customers = c.data;
+    this.customerService.getCustomers().subscribe((response) => {
+      this.customers = response.data;
+      console.log(response.data)
     });
   }
 
@@ -63,10 +69,10 @@ export class RentCarComponent implements OnInit {
     });
   }
 
-  rent() {
+   rent() {
     if (this.rentForm.valid) {
       var data = Object.assign({}, this.rentForm.value);
-      data.carId = this.car;
+      data.carId = this.car.carId;
       data.customerId = parseInt(data.customerId);
       this.rental = data;
       this.payVisible = true;
@@ -75,4 +81,5 @@ export class RentCarComponent implements OnInit {
       this.toastrService.error('Bilgilerin dogrulugundan emin olun.', 'HATA!');
     }
   }
+
 }
