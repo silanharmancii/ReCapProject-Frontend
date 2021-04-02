@@ -41,13 +41,13 @@
     <div class="row">
       <div class="inputbox mt-3">
         <span>Kart Üzerindeki Ad Soyad</span>
-        <input [(ngModel)]="nameOnTheCard" type="text" name="name" class="form-control" required="required" />
+        <input [(ngModel)]="nameOnTheCard" type="text" name="name" class="form-control" required="required" [ngModelOptions]="{standalone: true}"/>
       </div>
       <div class="row">
         <div class="col-md-6">
           <div class="inputbox mt-3 mr-2">
             <span>Kart Numarası</span>
-            <input [(ngModel)]="cardNumber" type="text" name="name" class="form-control" required="required" />
+            <input [(ngModel)]="cardNumber" type="text" name="name" class="form-control" required="required" [ngModelOptions]="{standalone: true}" />
             <i class="fa fa-credit-card"></i>
           </div>
         </div>
@@ -56,13 +56,13 @@
             <div class="inputbox mt-3 mr-2">
               <span>Son Kullanım Tarihi</span>
               <input [(ngModel)]="expirationMonth" type="text" name="name" class="form-control" required="required"
-                placeholder="Ay" />
+                placeholder="Ay" [ngModelOptions]="{standalone: true}" />
               <input [(ngModel)]="expirationYear" type="text" name="name" class="form-control" required="required"
-                placeholder="Yıl" />
+                placeholder="Yıl" [ngModelOptions]="{standalone: true}"/>
             </div>
             <div class="inputbox mt-3 mr-2">
               <span>Güvenlik Kodu</span>
-              <input [(ngModel)]="cardCvv" type="text" name="name" class="form-control" required="required" />
+              <input [(ngModel)]="cardCvv" type="text" name="name" class="form-control" required="required" [ngModelOptions]="{standalone: true}"/>
             </div>
           </div>
         </div>

@@ -23,5 +23,15 @@ export class BrandService {
     let newPath=this.apiUrl +"brands/add";
     return this.httpClient.post<ResponseModel>(newPath,brand);
   }
+
+  update(brand:Brand):Observable<ResponseModel>{
+    
+    return this.httpClient.post<ResponseModel>(this.apiUrl+"brands/update",brand);
+  }
+
+  getBrandById(brandId: number): Observable<ListResponseModel<Brand>> {
+    let newPath = this.apiUrl + 'brands/getbrandbyid?id='+ brandId;
+    return this.httpClient.get<ListResponseModel<Brand>>(newPath);
+  }
  
 }

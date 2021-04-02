@@ -11,7 +11,7 @@
 
 <form class="form-inline">
   <div class="form-group mb-2">
-    <select class="form-select" [(ngModel)]="colorIdFilter" placeholder="Renk sorgula" >
+    <select class="form-select" [(ngModel)]="colorIdFilter" placeholder="Renk sorgula" [ngModelOptions]="{standalone: true}" >
       <option *ngFor="let color of colors" [value]="color.id" 
       [selected] = "getCurrentColorClass(color)">
         {{ color.colorName }}

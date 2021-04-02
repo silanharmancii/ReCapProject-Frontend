@@ -1,0 +1,20 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Renk Adı</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let color of colors">
+            <td>{{color.colorName}}</td>
+            <td>
+                <button routerLink="/color-update/{{color.id}}" type="button" class="btn btn-success">Güncelle</button>
+            </td>
+            <!-- <td>
+            <button (click)="deleteCar(car.carId)" type="button" class="btn btn-success">Sil</button>
+        </td> -->
+        </tr>
+    </tbody>
+</table>

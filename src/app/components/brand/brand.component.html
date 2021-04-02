@@ -11,7 +11,7 @@
 
 <form class="form-inline">
   <div class="form-group mb-2">
-    <select class="form-select" [(ngModel)]="brandIdFilter">
+    <select class="form-select" [(ngModel)]="brandIdFilter" [ngModelOptions]="{standalone: true}">
       <option *ngFor="let brand of brands" [value]="brand.id"
       [selected]="getCurrentBrandClass(brand)" >
         {{ brand.brandName }}

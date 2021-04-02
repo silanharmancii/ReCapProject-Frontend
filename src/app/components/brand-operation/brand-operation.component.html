@@ -1,0 +1,20 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Marka Adı</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let brand of brands">
+            <td>{{brand.brandName}}</td>
+            <td>
+                <button routerLink="/brand-update/{{brand.id}}" type="button" class="btn btn-success">Güncelle</button>
+            </td>
+            <!-- <td>
+            <button (click)="deleteCar(car.carId)" type="button" class="btn btn-success">Sil</button>
+        </td> -->
+        </tr>
+    </tbody>
+</table>
