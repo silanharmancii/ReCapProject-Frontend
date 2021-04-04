@@ -11,7 +11,7 @@ import { CustomerComponent } from './components/customer/customer.component';
 import { NaviComponent } from './components/navi/navi.component';
 import { BrandComponent } from './components/brand/brand.component';
 import { ColorComponent } from './components/color/color.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CarDetailComponent } from './components/car-detail/car-detail.component';
 import { VatAddedPipe } from './pipes/vat-added.pipe';
 import { FilterPipePipe } from './pipes/filter-pipe.pipe';
@@ -30,6 +30,9 @@ import { BrandOperationComponent } from './components/brand-operation/brand-oper
 import { BrandUpdateComponent } from './components/brand-update/brand-update.component';
 import { ColorOperationComponent } from './components/color-operation/color-operation.component';
 import { ColorUpdateComponent } from './components/color-update/color-update.component';
+import { LoginComponent } from './components/login/login.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +58,9 @@ import { ColorUpdateComponent } from './components/color-update/color-update.com
     BrandOperationComponent,
     BrandUpdateComponent,
     ColorOperationComponent,
-    ColorUpdateComponent
+    ColorUpdateComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +73,9 @@ import { ColorUpdateComponent } from './components/color-update/color-update.com
       positionClass:"toast-bottom-right"
     })
   ],
-  providers: [],
+  providers: [
+    {provide:HTTP_INTERCEPTORS,useClass:AuthInterceptor,multi:true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -32,7 +32,7 @@ export class ColorAddComponent implements OnInit {
     if(this.colorAddForm.valid){
       let colorModel=Object.assign({},this.colorAddForm.value)
       this.colorService.add(colorModel).subscribe(response=>{
-        this.toastrService.success("Renk eklendi","Başarılı")
+        this.toastrService.success(response.message,"Başarılı")
       })
     }else{
       this.toastrService.error("Formunuz eksik","Uyarı")

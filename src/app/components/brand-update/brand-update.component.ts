@@ -49,7 +49,7 @@ export class BrandUpdateComponent implements OnInit {
       let brandModel:Brand = Object.assign({},this.brandUpdateForm.getRawValue())  
       brandModel.id=Number(brandModel.id)   
       this.brandService.update(brandModel).subscribe(response=>{
-        this.toastrService.success("Araba güncellendi", "Başarılı");
+        this.toastrService.success(response.message, "Başarılı");
       })
       
     }else{
