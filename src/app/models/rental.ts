@@ -10,5 +10,4 @@ export interface Rental{
     rentDate:Date;
     returnDate:Date;
     customerId?:number,
-    customerName:string,
 }

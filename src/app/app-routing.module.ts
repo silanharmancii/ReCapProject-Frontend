@@ -16,6 +16,7 @@ import { PaymentComponent } from './components/payment/payment.component';
 import { RegisterComponent } from './components/register/register.component';
 import { RentCarComponent } from './components/rent-car/rent-car.component';
 import { RentalComponent } from './components/rental/rental.component';
+import { UserUpdateComponent } from './components/user-update/user-update.component';
 import { LoginGuard } from './guards/login.guard';
 
 const routes: Routes = [
@@ -25,21 +26,20 @@ const routes: Routes = [
   { path: 'cars/color/:colorId', component: CarComponent },
   { path: 'cars/cardetail/:carId', component:CarDetailComponent},
   { path: 'rental/:carId', component:RentalComponent},
-  { path: 'rent-car/:carId', component:RentCarComponent},
-  { path: 'payment/rental', component:PaymentComponent},
+  { path: 'rent-car/:carId', component:RentCarComponent,canActivate:[LoginGuard]},
+  { path: 'payment/:rental', component:PaymentComponent,canActivate:[LoginGuard]},
   { path: 'cars/add', component:CarAddComponent, canActivate:[LoginGuard]},
   { path: 'brands/add', component:BrandAddComponent},
   { path: 'colors/add', component:ColorAddComponent},
-  { path: 'cars/car-operation', component:CarOperationComponent},
-  { path: 'car-update/:carId', component:CarUpdateComponent},
-  { path: 'brands/brand-operation', component:BrandOperationComponent},
-  { path: 'brand-update/:brandId', component:BrandUpdateComponent},
-  { path: 'colors/color-operation', component:ColorOperationComponent},
-  { path: 'color-update/:colorId', component:ColorUpdateComponent},
+  { path: 'cars/car-operation', component:CarOperationComponent,canActivate:[LoginGuard]},
+  { path: 'car-update/:carId', component:CarUpdateComponent, canActivate:[LoginGuard]},
+  { path: 'brands/brand-operation', component:BrandOperationComponent,canActivate:[LoginGuard]},
+  { path: 'brand-update/:brandId', component:BrandUpdateComponent,canActivate:[LoginGuard]},
+  { path: 'colors/color-operation', component:ColorOperationComponent,canActivate:[LoginGuard]},
+  { path: 'color-update/:colorId', component:ColorUpdateComponent,canActivate:[LoginGuard]},
   { path: 'login', component:LoginComponent},
   { path: 'register', component:RegisterComponent},
-
-  
+  { path: 'user-update', component:UserUpdateComponent,canActivate:[LoginGuard]},
   
 ];
 

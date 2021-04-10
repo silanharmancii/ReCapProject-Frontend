@@ -5,4 +5,5 @@ export interface CreditCard{
     cardCvv: string;
     expirationYear: string;
     expirationMonth: string;
+    totalMoney:number;
 }

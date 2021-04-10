@@ -29,8 +29,13 @@ apiUrl="https://localhost:44363/api/";
     return this.httpClient.post<ResponseModel>(newPath,{payment:{amount:amount},rental:{rental}});
   }
 
-  addRental(rental:Rental){
+  // addRental(rental:Rental){
+  //   let newPath = this.apiUrl + "rentals/add"
+  //   this.httpClient.post(newPath,rental).subscribe()
+  // }
+
+  addRental(rental: Rental): Observable<ResponseModel> {
     let newPath = this.apiUrl + "rentals/add"
-    this.httpClient.post(newPath,rental).subscribe()
+    return this.httpClient.post<ResponseModel>(newPath, rental);
   }
 }

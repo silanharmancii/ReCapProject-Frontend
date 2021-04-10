@@ -1,7 +1,9 @@
 import { identifierModuleUrl } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { UserInfo } from 'node:os';
 import { Car } from 'src/app/models/car';
 import { CreditCard } from 'src/app/models/creditCard';
 import { Customer } from 'src/app/models/customer';
@@ -9,7 +11,10 @@ import { Rental } from 'src/app/models/rental';
 import { CarService } from 'src/app/services/car.service';
 import { CreditCardService } from 'src/app/services/credit-card.service';
 import { CustomerService } from 'src/app/services/customer.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { PaymentService } from 'src/app/services/payment.service';
 import { RentalService } from 'src/app/services/rental.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-payment',
@@ -17,113 +22,155 @@ import { RentalService } from 'src/app/services/rental.service';
   styleUrls: ['./payment.component.css']
 })
 export class PaymentComponent implements OnInit {
-
-  
-  customer: Customer;
-  getCustomerId: number;
-  amountOfPayment: number=0 ;
-  id:number;
-  nameOnTheCard: string;
-  cardNumber: string;
-  cardCvv: string;
-  expirationMonth:string;
-  expirationYear: string;
-  card: CreditCard;
-  cardExist: Boolean = false;
   @Input() rental: Rental;
   @Input() car: Car;
+  totalPrice: number ;
+  payForm: FormGroup;
+  creditCard:CreditCard;
+  cardNumber:any;
 
 
   constructor(
-    private activateRoute: ActivatedRoute,
-    private carService: CarService,
-    private customerService: CustomerService,
-    private router: Router,
+    private formBuilder: FormBuilder,
     private toastrService: ToastrService,
+    private paymentService: PaymentService,
     private rentalService: RentalService,
-    private cardService: CreditCardService
+    private cardService: CreditCardService,
+    private localStorageService:LocalStorageService,
+    private userService:UserService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.activateRoute.params.subscribe((params) => {
-      if (params['rental']) {
-        this.rental = JSON.parse(params['rental']);
-        this.getCustomerId = JSON.parse(params['rental']).customerId;
-        this.getCustomerDetailById(this.getCustomerId);
-        this.getCarDetail();
-      }
-    });
+    this.createPayForm();
+    this.getRentSummary();
+    this.cardNumber = this.localStorageService.get('cardNumber');
   }
 
-  getCustomerDetailById(customerId: number) {
-    this.customerService.getCustomerById(customerId).subscribe((response) => {
-      this.customer = response.data[0];
-      console.log(response);
-    });
-  }
-
-  getCarDetail() {
-    this.carService
-      .getCarDetailsByCarId(this.rental.carId)
-      .subscribe((response) => {
-        this.car = response.data[0];
-        this.paymentCalculator();
-      });
-  }
-
-  paymentCalculator() {
+  getRentSummary() {
     if (this.rental.returnDate != null) {
       var date1 = new Date(this.rental.returnDate.toString());
       var date2 = new Date(this.rental.rentDate.toString());
       var difference = date1.getTime() - date2.getTime();
+      var totalDate = Math.ceil(difference / (1000 * 3600 * 24));
+      this.totalPrice = totalDate * this.car.dailyPrice;
+    } else {
+      this.totalPrice = this.car.dailyPrice;
+    }
+  }
 
-      //zamanFark değişkeni ile elde edilen saati güne çevirmek için aşağıdaki yöntem kullanılabilir.
-      var numberOfDays = Math.ceil(difference / (1000 * 3600 * 24));
-      console.log(numberOfDays);
+  createPayForm() {
+    this.payForm = this.formBuilder.group({
+      nameOnTheCard: [this.creditCard.nameOnTheCard, Validators.required],
+      cardNumber: [this.creditCard.cardNumber, Validators.required],
+      cardCvv: [this.creditCard.cardCvv, Validators.required],
+      expirationMonth: [this.creditCard.expirationMonth, Validators.required],
+      expirationYear: [this.creditCard.expirationYear, Validators.required],
+    });
+  }
 
-      this.amountOfPayment += numberOfDays * this.car.dailyPrice;
-      console.log(this.amountOfPayment);
-      if (this.amountOfPayment <= 0) {
-        this.router.navigate(['/cars']);
-        this.toastrService.error(
-          'Araç listesine yönlendiriliyorsunuz',
-          'Hatalı işlem'
-        );
+  async pay() {
+    if (this.payForm.valid) {
+ 
+      let creditCard = Object.assign({}, this.payForm.getRawValue());
+      this.creditCard = await this.getCardByCardNumber(this.creditCard.cardNumber);
+      //this.creditCard = this.getCardByCardNumber(this.cardNumber);
+      if(creditCard.totalMoney>=this.totalPrice ){
+        creditCard.totalMoney - this.totalPrice;
+        this.updateCard(creditCard);
+        this.addFindexPoint();
+        this.addRental();
       }
-    }
-  }
 
-  async rentACar() {
-    let card: CreditCard = {
-      id:this.id,
-      nameOnTheCard: this.nameOnTheCard,
-      cardNumber: this.cardNumber,
-      expirationMonth: this.expirationMonth,
-      expirationYear:this.expirationYear,
-      cardCvv: this.cardCvv,
-    };
-    this.cardExist = await this.isCardExist(card);
-    if (this.cardExist) {   
-        this.rentalService.addRental(this.rental);
-        this.toastrService.success('Arabayı kiraladınız', 'Işlem başarılı');
-      } else {
-      this.toastrService.error('Bankanız bilgilerinizi onaylamadı', 'Hata');
-    }
-  }
+    } else {
+      let payment = Object.assign({}, this.payForm.value);
+      console.log(payment);
+      this.toastrService.error('HATA!', 'Bilgilerin dogrulugundan emin olun.');
+   }
+ 
+  } 
 
-  async isCardExist(card: CreditCard) {
-    return (await this.cardService.isCardExist(card).toPromise())
-      .success;
+  updateCard(creditCard: CreditCard) {
+    this.cardService.updateCard(creditCard);
   }
 
   async getCardByCardNumber(cardNumber: string) {
+
     return (await this.cardService.getCardByNumber(cardNumber).toPromise())
-      .data[0];
+    .data;
+    // this.cardService.getCardByNumber(cardNumber).subscribe(response => {
+    //   this.creditCard = response.data[0];
+    // })
   }
 
-  updateCard(card: CreditCard) {
-    this.cardService.updateCard(card);
+  addFindexPoint() {
+    this.userService
+      .addFindexPoint(Number(this.localStorageService.get('userId')))
+      .subscribe(
+        (response) => {
+          this.toastrService.success(response.message);
+        },
+        (responseError) => {
+          this.toastrService.info(responseError.error.message);
+        }
+      );
   }
+
+  addRental() {
+    this.rentalService.addRental(this.rental).subscribe(
+      (response) => {
+        this.toastrService.success('Odeme Islemi Onaylandi.', 'Iyi Yolculuklar.');
+        if (!this.cardNumber) {
+          if (window.confirm('Kredi kartı kaydedilsin mi?')) {
+            this.saveCreditCard();
+          }else{
+            this.router.navigate(['/']);
+          }
+        }
+      },
+      (responseError) => {
+        if (responseError.error.Errors.length > 0) {
+          for (
+            let index = 0;
+            index < responseError.error.Errors.length;
+            index++
+          ) {
+            this.toastrService.error(
+              responseError.error.Errors[index].ErrorMessage,
+              'Validation Error'
+            );
+          }
+        }
+      }
+    );
+  }
+
+  saveCreditCard() {
+    this.localStorageService.add(
+      'nameOnTheCard',
+      this.creditCard.nameOnTheCard
+    );
+    this.localStorageService.add(
+      'cardNumber',
+      this.creditCard.cardNumber
+    );
+    this.localStorageService.add(
+      'expirationYear',
+      this.creditCard.expirationYear
+    );
+    this.localStorageService.add(
+      'expirationMonth',
+      this.creditCard.expirationMonth
+    );
+    this.localStorageService.add(
+      'cardCvv',
+      this.creditCard.cardCvv
+    );
+   
+    this.router.navigate(['/']);
+  }
+ 
+  
 }
 
 

@@ -25,7 +25,7 @@
           <td>{{ car?.dailyPrice | currency: "₺" }}</td>
           <td>
             <strong class="text-danger">{{
-              amountOfPayment | currency: "₺"
+              totalPrice | currency: "₺"
               }}</strong>
           </td>
         </tr>
@@ -38,41 +38,46 @@
     <strong>Ödeme İşlemlemi</strong>
   </div>
   <div class="card-body">
-    <div class="row">
-      <div class="inputbox mt-3">
-        <span>Kart Üzerindeki Ad Soyad</span>
-        <input [(ngModel)]="nameOnTheCard" type="text" name="name" class="form-control" required="required" [ngModelOptions]="{standalone: true}"/>
-      </div>
+    <form [formGroup]="payForm">
       <div class="row">
-        <div class="col-md-6">
-          <div class="inputbox mt-3 mr-2">
-            <span>Kart Numarası</span>
-            <input [(ngModel)]="cardNumber" type="text" name="name" class="form-control" required="required" [ngModelOptions]="{standalone: true}" />
-            <i class="fa fa-credit-card"></i>
-          </div>
+        <div class="inputbox mt-3">
+          <span>Kart Üzerindeki Ad Soyad</span>
+          <input  type="text" name="name" class="form-control" required="required" formControlName="nameOnTheCard"
+             />
         </div>
-        <div class="col-md-6">
-          <div class="d-flex flex-row">
+        <div class="row">
+          <div class="col-md-6">
             <div class="inputbox mt-3 mr-2">
-              <span>Son Kullanım Tarihi</span>
-              <input [(ngModel)]="expirationMonth" type="text" name="name" class="form-control" required="required"
-                placeholder="Ay" [ngModelOptions]="{standalone: true}" />
-              <input [(ngModel)]="expirationYear" type="text" name="name" class="form-control" required="required"
-                placeholder="Yıl" [ngModelOptions]="{standalone: true}"/>
+              <span>Kart Numarası</span>
+              <input  type="text" name="name" class="form-control" required="required" formControlName="cardNumber"
+                />
+              <i class="fa fa-credit-card"></i>
             </div>
-            <div class="inputbox mt-3 mr-2">
-              <span>Güvenlik Kodu</span>
-              <input [(ngModel)]="cardCvv" type="text" name="name" class="form-control" required="required" [ngModelOptions]="{standalone: true}"/>
+          </div>
+          <div class="col-md-6">
+            <div class="d-flex flex-row">
+              <div class="inputbox mt-3 mr-2">
+                <span>Son Kullanım Tarihi</span>
+                <input  type="text" name="name" class="form-control" required="required" formControlName="expirationMonth"
+                  placeholder="Ay"  />
+                <input  type="text" name="name" class="form-control" required="required" formControlName="expirationYear"
+                  placeholder="Yıl"  />
+              </div>
+              <div class="inputbox mt-3 mr-2">
+                <span>Güvenlik Kodu</span>
+                <input  type="text" name="name" class="form-control" required="required" formControlName="cardCvv"
+                   />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </form>
   </div>
   <div class="card-footer">
     <div class="row">
-      <button (click)="rentACar()" class="btn btn-success">
-        <strong>{{ amountOfPayment | currency: "₺" }} </strong>Ödeme Yap
+      <button (click)="pay()" class="btn btn-success">
+        <strong>{{ totalPrice | currency: "₺" }} </strong>Ödeme Yap
       </button>
     </div>
   </div>
