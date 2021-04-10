@@ -12,4 +12,5 @@ export interface Car{
     modelYear:string,
     description:string,
     status:boolean
+    minFindex:number
 }
