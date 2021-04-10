@@ -1,4 +1,4 @@
-# Araç Kiralama Projesi - Frontend  
+# Car Rental Project - Frontend  
 
 RecapProject, araç kiralama projesidir. Angular ve Bootstrap v4.0 kullanılarak hazırlanmıştır.</br>
 **Component**:HTML, Typescript ve CSS dosyalarını içerir. Typescript dosyaları genel olarak ilgili componentin servisini kullanılır.</br>
