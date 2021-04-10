@@ -1,0 +1,68 @@
+<div class="card mb-3 mt-3">
+    <div class="card-header">
+      <h5 class="card-title">Bilgilerim</h5>
+    </div>
+    <div class="card-body">
+      <p class="card-text">
+        <span class="text-muted">Ad:</span> {{ user.firstName }}
+      </p>
+      <p class="card-text">
+        <span class="text-muted">Soyad:</span> {{ user.lastName }}
+      </p>
+      <p class="card-text">
+        <span class="text-muted">E-Posta:</span> {{ user.email }}
+      </p>
+    </div>
+  </div>
+  <div class="card mb-3 mt-3">
+    <div class="card-header">
+      <h5 class="card-title">Bilgileri Güncelle</h5>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="userUpdateForm">
+        <div class="form-group">
+          <label for="firstName" class="form-label">Adınız</label>
+          <input
+            type="text"
+            class="form-control"
+            id="firstName"
+            formControlName="firstName"
+          />
+        </div>
+        <div class="form-group">
+          <label for="lastName" class="form-label">Soyadınız</label>
+          <input
+            type="text"
+            class="form-control"
+            id="lastName"
+            formControlName="lastName"
+          />
+        </div>
+        <div class="form-group">
+          <label for="email" class="form-label">E-Posta</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            formControlName="email"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password" class="form-label">Parola</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            formControlName="password"
+          />
+        </div>
+        <div class="card-footer">
+          <div class="d-grid gap-2 mb-3 mt-3">
+            <button (click)="update()" type="submit" class="btn btn-primary">
+              Güncelle
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>

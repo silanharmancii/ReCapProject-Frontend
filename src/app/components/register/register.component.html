@@ -2,29 +2,29 @@
 
     <main class="form-signin">
         <form [formGroup]="registerForm">
-           <h1 class="h3 mb-3 fw-normal">Giriş Yap</h1>
+           <h1 class="h3 mb-3 fw-normal">Kayıt Ol</h1>
 
             <div class="form-floating">
                 <input type="email" 
                 formControlName="email" class="form-control" id="email" placeholder="Eposta">
-                <label for="floatingInput">Eposta</label>
+                <label for="email">Eposta</label>
             </div>
             <div class="form-floating">
                 <input type="password" 
                 formControlName="password" class="form-control" id="password" placeholder="Password">
-                <label for="floatingPassword">Parola</label>
+                <label for="password">Parola</label>
             </div>
             <div class="form-floating">
                 <input type="text" 
                 formControlName="firstName" class="form-control" id="firstName" placeholder="Ad">
-                <label for="floatingPassword">Ad</label>
+                <label for="firstName">Ad</label>
             </div>
             <div class="form-floating">
                 <input type="text" 
                 formControlName="lastName" class="form-control" id="lastName" placeholder="Soyad">
-                <label for="floatingPassword">Soyad</label>
+                <label for="lastName">Soyad</label>
             </div>
-            <button (click)="register()" class="w-100 btn btn-lg btn-primary" type="submit">Giriş</button>
+            <button (click)="register()" class="w-100 btn btn-lg btn-primary" type="submit">Kayıt Ol</button>
             <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
         </form>
     </main>
