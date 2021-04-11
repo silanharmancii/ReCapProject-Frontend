@@ -10,33 +10,43 @@ import { ResponseModel } from '../models/responseModel';
 })
 export class CreditCardService {
 
-  constructor(private httpClient:HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
-  apiUrl='https://localhost:44363/api/'
+  apiUrl = 'https://localhost:44363/api/'
 
-  isCardExist(card:CreditCard):Observable<ResponseModel>{
-    let newPath = this.apiUrl + "creditcards/iscardexist";
-    console.log(card);
-    return this.httpClient.post<ResponseModel>(newPath,card);
+  // isCardExist(card:CreditCard):Observable<ResponseModel>{
+  //   let newPath = this.apiUrl + "creditcards/iscardexist";
+  //   console.log(card);
+  //   return this.httpClient.post<ResponseModel>(newPath,card);
+  // }
+
+  getAllCards():Observable<ListResponseModel<CreditCard>>{
+    let newPath=this.apiUrl + "creditcards/getall"
+    return this.httpClient.get<ListResponseModel<CreditCard>>(newPath);
   }
 
-  getCardByNumber(cardNumber:string):Observable<ListResponseModel<CreditCard>>{
+  getCardByNumber(cardNumber: string): Observable<ListResponseModel<CreditCard>> {
     let newPath = this.apiUrl + "creditcards/getbycardnumber?cardnumber=" + cardNumber;
     return this.httpClient.get<ListResponseModel<CreditCard>>(newPath);
   }
 
-  getCardById(cardId:string):Observable<ListResponseModel<CreditCard>>{
+  getCardById(cardId: number): Observable<ListResponseModel<CreditCard>> {
     let newPath = this.apiUrl + "creditcards/getbyid?cardId=" + cardId;
     return this.httpClient.get<ListResponseModel<CreditCard>>(newPath);
   }
 
-  getCardByCustomerId(cardId:string):Observable<ListResponseModel<CreditCard>>{
-    let newPath = this.apiUrl + "creditcards/getbyid?cardId=" + cardId;
+  getCardByCustomerId(customerId: number): Observable<ListResponseModel<CreditCard>> {
+    let newPath = "https://localhost:44363/api/customers/getcardbycustomerid?customerId=" + customerId;
     return this.httpClient.get<ListResponseModel<CreditCard>>(newPath);
   }
 
-  updateCard(card:CreditCard){
+  updateCard(card: CreditCard):Observable<ResponseModel> {
     let newPath = this.apiUrl + "creditcards/update";
-    this.httpClient.put(newPath,card)
+    return this.httpClient.post<ResponseModel>(newPath, card)
+  }
+
+  addCard(card: CreditCard):Observable<ResponseModel> {
+    let newPath = this.apiUrl + "creditcards/add";
+    return this.httpClient.post<ResponseModel>(newPath, card)
   }
 }

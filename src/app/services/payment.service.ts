@@ -38,17 +38,6 @@ export class PaymentService {
     return this.httpClient.get<SingleResponseModel<CreditCard>>(newUrl);
   }
 
-
-   CheckCreditCard(card: CreditCard, totalPrice:number) {
-    //  let newUrl = this.apiUrl + 'creditcards/addrental/' + totalPrice;
-    //  return this.httpClient.post<ListResponseModel<CreditCard>>(newUrl, card);
-    if(card.totalMoney>totalPrice){
-      return true;
-    }else{
-      return false;
-    }
-   }
-
   // // CheckFindexPoint(card:number): Observable<ListResponseModel<FindexPoint>> {
   // //   let newUrl = this.apiUrl + 'findexpoint/check/' + card;
   // //   return this.httpClient.get<DataResponseModel<FindexPoint>>(newUrl);

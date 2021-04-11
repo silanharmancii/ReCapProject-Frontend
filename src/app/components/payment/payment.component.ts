@@ -3,7 +3,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { UserInfo } from 'node:os';
 import { Car } from 'src/app/models/car';
 import { CreditCard } from 'src/app/models/creditCard';
 import { Customer } from 'src/app/models/customer';
@@ -24,10 +23,10 @@ import { UserService } from 'src/app/services/user.service';
 export class PaymentComponent implements OnInit {
   @Input() rental: Rental;
   @Input() car: Car;
-  totalPrice: number ;
+  totalPrice: number;
   payForm: FormGroup;
-  creditCard:CreditCard;
-  cardNumber:any;
+  creditCard: CreditCard;
+  cardNumber: any;
 
 
   constructor(
@@ -36,10 +35,10 @@ export class PaymentComponent implements OnInit {
     private paymentService: PaymentService,
     private rentalService: RentalService,
     private cardService: CreditCardService,
-    private localStorageService:LocalStorageService,
-    private userService:UserService,
+    private localStorageService: LocalStorageService,
+    private userService: UserService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.createPayForm();
@@ -69,51 +68,55 @@ export class PaymentComponent implements OnInit {
     });
   }
 
-  async pay() {
+  pay() {
     if (this.payForm.valid) {
- 
-      let creditCard = Object.assign({}, this.payForm.getRawValue());
-      this.creditCard = await this.getCardByCardNumber(this.creditCard.cardNumber);
-      //this.creditCard = this.getCardByCardNumber(this.cardNumber);
-      if(creditCard.totalMoney>=this.totalPrice ){
-        creditCard.totalMoney - this.totalPrice;
-        this.updateCard(creditCard);
-        this.addFindexPoint();
-        this.addRental();
-      }
-
+      let payment = Object.assign({}, this.payForm.value);
+      this.cardService.getCardById(this.car.carId).subscribe(
+        (response) => {
+          if (response.data[0].totalMoney >= this.totalPrice) {
+            this.checkFindexPoint(response.data[0].id);
+          }
+        },
+        (response) => {
+          this.toastrService.error('HATA!', response.error.message);
+        }
+      );
     } else {
       let payment = Object.assign({}, this.payForm.value);
       console.log(payment);
       this.toastrService.error('HATA!', 'Bilgilerin dogrulugundan emin olun.');
-   }
- 
-  } 
+    }
+  }
 
   updateCard(creditCard: CreditCard) {
     this.cardService.updateCard(creditCard);
   }
 
-  async getCardByCardNumber(cardNumber: string) {
-
-    return (await this.cardService.getCardByNumber(cardNumber).toPromise())
-    .data;
-    // this.cardService.getCardByNumber(cardNumber).subscribe(response => {
-    //   this.creditCard = response.data[0];
-    // })
+  getCardByCardNumber(cardNumber: string) {
+    this.cardService.getCardByNumber(cardNumber).subscribe(response => {
+      this.creditCard = response.data[0];
+    })
   }
 
-  addFindexPoint() {
-    this.userService
-      .addFindexPoint(Number(this.localStorageService.get('userId')))
-      .subscribe(
-        (response) => {
-          this.toastrService.success(response.message);
-        },
-        (responseError) => {
-          this.toastrService.info(responseError.error.message);
+  checkFindexPoint(card: number) {
+    this.cardService.getCardById(card).subscribe(
+      (response) => {
+        if (response.data[0].findexPoint > 1200) {
+          this.addRental();
+        } else {
+          this.toastrService.error(
+            'Findeks Puanınız Yetersiz',
+            'Odeme Basarisiz.'
+          );
         }
-      );
+      },
+      (response) => {
+        this.toastrService.info(
+          'Findeks Puaniniz alinamadi.',
+          'Odeme Basarisiz.'
+        );
+      }
+    );
   }
 
   addRental() {
@@ -123,7 +126,7 @@ export class PaymentComponent implements OnInit {
         if (!this.cardNumber) {
           if (window.confirm('Kredi kartı kaydedilsin mi?')) {
             this.saveCreditCard();
-          }else{
+          } else {
             this.router.navigate(['/']);
           }
         }
@@ -166,11 +169,11 @@ export class PaymentComponent implements OnInit {
       'cardCvv',
       this.creditCard.cardCvv
     );
-   
+
     this.router.navigate(['/']);
   }
- 
-  
+
+
 }
 
 

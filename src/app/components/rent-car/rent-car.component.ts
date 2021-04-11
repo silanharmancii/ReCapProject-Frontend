@@ -16,8 +16,8 @@ import { RentalService } from 'src/app/services/rental.service';
   styleUrls: ['./rent-car.component.css'],
 })
 export class RentCarComponent implements OnInit {
-  car:Car;
-  cars: Car[]=[];
+  car: Car;
+  cars: Car[] = [];
   rental: Rental;
   customers: Customer[] = [];
   rentDate: Date;
@@ -38,7 +38,7 @@ export class RentCarComponent implements OnInit {
     private carService: CarService,
     private customerService: CustomerService,
     private rentalService: RentalService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.activedRoute.params.subscribe((params) => {
@@ -69,7 +69,7 @@ export class RentCarComponent implements OnInit {
     });
   }
 
-   rent() {
+  rent() {
     if (this.rentForm.valid) {
       var data = Object.assign({}, this.rentForm.value);
       data.carId = this.car.carId;
@@ -77,6 +77,8 @@ export class RentCarComponent implements OnInit {
       this.rental = data;
       this.payVisible = true;
       this.toastrService.info('Odeme Sayfasina Yonlendiriliyorsunuz.');
+
+
     } else {
       this.toastrService.error('Bilgilerin dogrulugundan emin olun.', 'HATA!');
     }
